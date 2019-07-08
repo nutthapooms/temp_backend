@@ -29,7 +29,7 @@ app.get('/api/admin/finduser/:user',function(req,res){ //create user or find use
     console.log(req.params.user); 
 })
 
-app.get('/api/admin/barcode/:barcode',function(req,res){ //create user or find user
+app.get('/api/admin/barcode/:barcode',function(req,res){
     var barcode = "_"+ req.params.barcode
     res.send(unit_data[barcode]); 
 
@@ -40,8 +40,18 @@ app.get('/api/admin/lockerno/80017/:locker',function(req,res){
     res.send(locker_data[locker])
 })
 
-app.get('/api/admin/return/:barcode',function(req,res){ //create user or find user
+app.get('/api/admin/borrow/:barcode/:idcard',function(req,res){
     var barcode = "_"+ req.params.barcode
+    var idcard = req.params.idcard
+    unit_data[barcode].loaner.employeeId = idcard
+    fs.writeFile('item.json',JSON.stringify(unit_data),'utf8',function(){}); 
+    res.send(unit_data[barcode])
+})
+
+app.get('/api/admin/return/:barcode',function(req,res){ 
+    var barcode = "_"+ req.params.barcode
+    unit_data[barcode].loaner.employeeId = null
+    fs.writeFile('item.json',JSON.stringify(unit_data),'utf8',function(){}); 
     res.send(unit_data[barcode]);
 })
 

@@ -4,12 +4,11 @@ var body = require('body-parser')
 var port = 4001
 const fs = require('fs')
 const unitList = fs.readFileSync('./item.json', 'utf8')
+const lockerList = fs.readFileSync('./locker.json', 'utf8')
 
+const unit_data = JSON.parse(unitList)
+const locker_data = JSON.parse(lockerList)
 
-  const data = JSON.parse(unitList)
-
-// var a = "_4RDK9IH"
-//     console.log(data[a]);
 
 
 var axios = require('axios');
@@ -32,13 +31,18 @@ app.get('/api/admin/finduser/:user',function(req,res){ //create user or find use
 
 app.get('/api/admin/barcode/:barcode',function(req,res){ //create user or find user
     var barcode = "_"+ req.params.barcode
-    res.send(data[barcode]); 
+    res.send(unit_data[barcode]); 
 
+})
+app.get('/api/admin/lockerno/80017/:locker',function(req,res){
+    var locker = req.params.locker
+    console.log(locker)
+    res.send(locker_data[locker])
 })
 
 app.get('/api/admin/return/:barcode',function(req,res){ //create user or find user
     var barcode = "_"+ req.params.barcode
-    res.send(data[barcode]);
+    res.send(unit_data[barcode]);
 })
 
 
